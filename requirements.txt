@@ -10,4 +10,5 @@ pydantic
 typing
 huggingface_hub
 scikit-learn
-
+pypdf
+chromadb
