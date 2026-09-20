@@ -3,12 +3,15 @@ import os
 from dotenv import load_dotenv
 from sklearn.metrics.pairwise import cosine_similarity
 
+# Load the API key used to create document and query embeddings.
+
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def get_embeddings(text):
+    # Convert text into a fixed-size vector using the OpenAI embedding model.
     response = client.embeddings.create(model="text-embedding-3-small", 
                             input=text,
                             dimensions=4)
@@ -21,6 +24,7 @@ documents = ["spark is a big data processing framework.",
             "deep learning is a subset of machine learning that uses neural networks with many layers to learn from data."
             ]
 
+# Create one embedding for each document.
 doc_embeddings = []
 for text in documents:
     doc_embeddings.append(get_embeddings(text))

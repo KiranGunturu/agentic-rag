@@ -1,16 +1,38 @@
 import chromadb
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
 
-client = chromadb.PersistentClient(path="./chroma_db")
+# Load the API key from the local .env file.
+load_dotenv()
 
-collection = client.get_or_create_collection("chromadb_collection")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-#records = collection.get(ids=["id1"])
+# Generate an embedding for the search text using the same model and dimension
+# used when the documents were added to ChromaDB.
+def get_embeddings(text):
+        response = client.embeddings.create(
+                model="text-embedding-3-small",
+                input=text,
+                dimensions=4,
+        )
+        return response.data[0].embedding
 
-#records = collection.get(ids=["id1"], include=["metadatas", "documents", "embeddings"])
+# Open the persistent ChromaDB database and access the document collection.
+chroma_client = chromadb.PersistentClient(path="./chroma_db")
 
-# give me a query to find the most similar document to "aws is a cloud computing service." and return the top 3 results with their metadata, documents, and embeddings.
-records = collection.query(
-    query_texts=["aws is a cloud computing service."], n_results=3, include=["metadatas", "documents", "embeddings"])
+collection = chroma_client.get_or_create_collection("chromadb_collection")
+
+# Convert the natural-language query into an embedding vector.
+query = "aws is a cloud computing service."  # Text used to find similar documents.
+
+question_embedding = get_embeddings(query)
+
+# Return the five documents most similar to the query embedding.
+# Query ChromaDB with the generated vector instead of the raw text.
+records = collection.query(query_embeddings=[question_embedding], n_results=5)
 
 print(records)
+
+
 

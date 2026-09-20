@@ -1,5 +1,7 @@
 from pypdf import PdfReader
 
+# PDF source used for text extraction.
+
 doc_path = "C:/Users/kiran/OneDrive/Documents/AgenticRAG/docs/HR.pdf"
 
 
@@ -7,12 +9,14 @@ doc_path = "C:/Users/kiran/OneDrive/Documents/AgenticRAG/docs/HR.pdf"
 #(pdf_reader.pages)
 
 def create_chunks(text, chunk_size=500, overlap_size=100):
+    # Read the PDF and split its text into overlapping chunks.
     pdf_reader = PdfReader(doc_path)
     full_text = ""
     for page in pdf_reader.pages:
         full_text += page.extract_text()
         full_text += "\n"
     
+    # Overlap preserves context between neighboring chunks.
     chunks = []
     start = 0
     while start < len(full_text):
