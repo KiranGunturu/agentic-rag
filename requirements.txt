@@ -1,14 +1,9 @@
 openai
 python-dotenv
-psycopg[binary]
 streamlit
 pandas
-sqlalchemy
-google-genai
-pyodbc
-pydantic
-typing
-huggingface_hub
 scikit-learn
 pypdf
 chromadb
+strands-agents
+strands-agents-tools
