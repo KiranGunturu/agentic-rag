@@ -38,6 +38,13 @@ collection = client.get_or_create_collection("chromadb_collection")
 collection.add(
     documents=documents,
     ids=["id1", "id2", "id3", "id4", "id5"],
-    embeddings=doc_embeddings
+    embeddings=doc_embeddings,
+    metadatas=[
+        {"topic": "big data processing"},
+        {"topic": "cloud computing"},
+        {"topic": "data science"},
+        {"topic": "machine learning"},
+        {"topic": "deep learning"},
+    ]
 )
 
