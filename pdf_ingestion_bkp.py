@@ -41,15 +41,18 @@ collection = chroma_client.get_or_create_collection("hr_collection")
 # Extract overlapping text chunks and their IDs and metadata from the PDF.
 doc_path = "docs/HR.pdf"
 
-chunks, ids, metadatas = create_chunks(doc_path, chunk_size=500, overlap_size=100)
+folder = '/docs'
+files = os.listdir('docs')
 
-# Generate vectors for every extracted chunk.
-embeddings = get_embeddings_batch(chunks)
-
-# Store the chunks, vectors, IDs, and metadata in the HR collection.
-collection.add(ids = ids,
-               documents=chunks,
-               embeddings=embeddings,
-               metadatas=metadatas)
+for file in files:
+        doc_path = f'{doc_path}/{file}'
+        chunks, ids, metadatas = create_chunks(doc_path, chunk_size=500, overlap_size=100)
+        # Generate vectors for every extracted chunk.
+        embeddings = get_embeddings_batch(chunks)
+        # Store the chunks, vectors, IDs, and metadata in the HR collection.
+        collection.add(ids = ids,
+                documents=chunks,
+                embeddings=embeddings,
+                metadatas=metadatas)
 
 
