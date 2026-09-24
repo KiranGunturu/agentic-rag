@@ -1,11 +1,29 @@
 # AgenticRAG
 
-Retrieval-augmented generation (RAG) examples that progress from a simple local pipeline to a multi-knowledge-base agent on AWS:
+Retrieval-augmented generation (RAG) examples that progress from a simple local pipeline, through a relational vector store, to a multi-knowledge-base agent on AWS:
 
 | Example | What it shows | Stack |
 | --- | --- | --- |
 | **Local RAG** (`pdf_ingestion.py`, `pdf_retriever.py`) | The mechanics of RAG: chunk, embed, store, retrieve, answer | OpenAI embeddings + ChromaDB + OpenAI answer model |
+| **SQL Server variant** (`rag_sqlserver.py`) | The same ingestion, storing embeddings in a relational database | OpenAI embeddings + SQL Server 2025 `VECTOR` type |
 | **Northwind agentic RAG demo** (`agentic_rag_demo.py`) | An agent that plans, searches several knowledge bases, and knows when *not* to search | Strands Agents + 3 Amazon Bedrock Knowledge Bases + Bedrock model |
+
+## Tech Stack
+
+| Layer | Local RAG | SQL Server variant | Northwind agentic RAG |
+| --- | --- | --- | --- |
+| Language | Python 3.10+ | Python 3.10+ | Python 3.10+ |
+| Document source | `docs/HR.pdf` | `docs/HR.pdf` | Synthetic PDFs in `docs/kb-docs/`, uploaded to Amazon S3 |
+| Chunking | `chunking.py` (500 chars, 100 overlap) | `chunking.py` (same settings) | Managed by Bedrock Knowledge Base |
+| Embeddings | OpenAI `text-embedding-3-small` (1536 dims) | OpenAI `text-embedding-3-small` (1536 dims) | Managed by Bedrock Knowledge Base |
+| Vector store | ChromaDB (local, persistent) | SQL Server 2025 native `VECTOR(1536)` | Amazon Bedrock Knowledge Bases (managed vector store) |
+| Retrieval | `collection.query` | T-SQL `VECTOR_DISTANCE` (example query) | Bedrock Retrieve API via Strands `BedrockKnowledgeBaseStore` |
+| Answer model | OpenAI Responses API | n/a (ingestion only) | Amazon Bedrock model via Strands `BedrockModel` |
+| Orchestration | Straight-line script | Straight-line script | Strands Agents (`Agent` + `MemoryManager`) |
+
+**Key Python libraries:** `openai`, `chromadb`, `pyodbc`, `python-dotenv`, `boto3`, `strands-agents`. See `requirements.txt` for the full list and versions.
+
+**Infrastructure:** local SQL Server 2025 instance with Microsoft ODBC Driver 18; AWS account (us-west-2) with Amazon Bedrock model access, Bedrock Knowledge Bases, Amazon S3, and IAM.
 
 ## Agentic RAG at a Glance
 
