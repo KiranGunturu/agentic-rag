@@ -316,7 +316,7 @@ flowchart TB
    Use these exact names so the script finds them. Optionally, paste the matching text from `FALLBACK_DESCRIPTIONS` in the script into each KB's description field.
 
    <img src="docs/images/01-kb-list.png" alt="The three Northwind knowledge bases in the Amazon Bedrock console" width="800">
-
+   <br><em>The three Northwind knowledge bases in the Amazon Bedrock console</em>
 3. **Sync each data source** and confirm the sync history shows 3 documents indexed for policy, 3 for engineering, and 4 for incidents.
 
    <img src="docs/images/02-kb-policy-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
