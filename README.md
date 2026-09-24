@@ -314,7 +314,13 @@ flowchart TB
    | `northwind-incidents` | `s3://<your-bucket>/northwind/incidents/` |
 
    Use these exact names so the script finds them. Optionally, paste the matching text from `FALLBACK_DESCRIPTIONS` in the script into each KB's description field.
+
+   <img src="docs/images/01-kb-list.png" alt="The three Northwind knowledge bases in the Amazon Bedrock console" width="800">
+
 3. **Sync each data source** and confirm the sync history shows 3 documents indexed for policy, 3 for engineering, and 4 for incidents.
+
+   <img src="docs/images/02-kb-policy-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
+
 4. **Test each KB in the console** (the Test button) with a question only its documents can answer, for example "What is the SCN-01H threshold for high-risk customers?" on `northwind-policy`.
 5. **IAM permissions** for the identity running the script:
    - `bedrock-agent:ListKnowledgeBases`
@@ -381,6 +387,66 @@ Use this to check each run.
 - **Q4.** NWB-RB-402 section 4 requires a problem ticket after two hard-cutoff breaches of the same feed within 6 months. The April and August 2026 wire incidents qualify, and PRB-2026-031 was opened (PM-2026-0811).
 - **Q5.** No search calls. The answer opens by saying Northwind's knowledge bases don't contain this, then gives a section labeled "General information (not Northwind policy)" with no invented Northwind fee.
 
+### Sample runs
+
+Actual output from the demo runs, in the order of the suggested demo flow.
+
+#### Q2: Standard LLM vs. agentic RAG
+
+Same question, same model. On the left, no knowledge bases; on the right, the agent searches the policy knowledge base.
+
+| Standard LLM (`--q 2 --baseline`) | Agentic RAG (`--q 2`) |
+| --- | --- |
+| <img src="docs/images/03-q2-baseline.png" alt="Q2 baseline answer without knowledge bases" width="400"> | <img src="docs/images/04-q2-grounded.png" alt="Q2 grounded answer citing Northwind policy documents" width="400"> |
+
+<details>
+<summary>Full output: Q2 baseline</summary>
+
+```text
+(paste terminal output here)
+```
+
+</details>
+
+<details>
+<summary>Full output: Q2 agentic RAG</summary>
+
+```text
+(paste terminal output here)
+```
+
+</details>
+
+#### Q1: Multi-part question across three knowledge bases
+
+The tool-call lines show the agent searching the engineering, incidents, and policy knowledge bases before answering.
+
+<img src="docs/images/05-q1-agentic.png" alt="Q1 run showing searches across all three knowledge bases" width="800">
+
+<details>
+<summary>Full output: Q1</summary>
+
+```text
+(paste terminal output here)
+```
+
+</details>
+
+#### Q5: Knowing when not to retrieve
+
+No search calls: the agent recognizes the question is outside the knowledge bases' scope, says so, and gives a labeled general answer.
+
+<img src="docs/images/06-q5-out-of-scope.png" alt="Q5 run with no knowledge base searches and a labeled general answer" width="800">
+
+<details>
+<summary>Full output: Q5</summary>
+
+```text
+(paste terminal output here)
+```
+
+</details>
+
 ### Suggested demo flow
 
 Start with the standard LLM, then add one capability at a time.
@@ -430,6 +496,7 @@ python .\agentic_rag_demo.py --q 1 > q1_output.txt
 - `chroma_store_test.py`, `chroma_read_test.py`: Test variants of the ChromaDB store and read examples.
 - `vector_similarities.py`: Example of comparing embeddings with cosine similarity.
 - `docs/HR.pdf`: Source document for the PDF RAG workflow.
+- `docs/images/`: Screenshots used in this README (AWS console and demo runs).
 - `chroma_db/`: Persistent local ChromaDB data created at runtime.
 
 **SQL Server vector store**
