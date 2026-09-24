@@ -323,7 +323,7 @@ flowchart TB
 
    <img src="docs/images/03-kb-policy-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
 
-   <img src="docs/images/04-kb-engineering-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
+   <img src="docs/images/04-kb-engineering-details.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
 
    <br><em>northwind-policy knowledge base with its S3 data source synced and available</em>
 
