@@ -319,7 +319,13 @@ flowchart TB
    <br><em>The three Northwind knowledge bases in the Amazon Bedrock console</em>
 3. **Sync each data source** and confirm the sync history shows 3 documents indexed for policy, 3 for engineering, and 4 for incidents.
 
-   <img src="docs/images/02-kb-policy-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
+   <img src="docs/images/02-kb-incidents-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
+
+   <img src="docs/images/03-kb-policy-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
+
+   <img src="docs/images/04-kb-engineering-detail.png" alt="northwind-policy knowledge base with its S3 data source synced and available" width="800">
+
+   <br><em>northwind-policy knowledge base with its S3 data source synced and available</em>
 
 4. **Test each KB in the console** (the Test button) with a question only its documents can answer, for example "What is the SCN-01H threshold for high-risk customers?" on `northwind-policy`.
 5. **IAM permissions** for the identity running the script:
