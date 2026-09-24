@@ -7,5 +7,7 @@ pypdf
 chromadb
 strands-agents
 strands-agents-tools
+strands-agents[anthropic]
 langchain-text-splitters
 pyodbc
+
