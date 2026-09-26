@@ -1,13 +1,15 @@
 from rank_bm25 import BM25Okapi
 import re
+from nltk.stem import PorterStemmer
 
+stemmer = PorterStemmer()
 
 def preprocess(doc):
     # Normalize text and split it into tokens for keyword-based scoring.
     tokenized_doc = doc.lower()
     tokenized_doc = re.sub(r"[^\w\s]","", tokenized_doc)
     tokenized_doc = tokenized_doc.split(" ")
-    return tokenized_doc
+    return [stemmer.stem(token) for token in tokenized_doc]
 
 # Example policy passages used as the BM25 search corpus.
 documents = [
