@@ -12,3 +12,4 @@ langchain-text-splitters
 pyodbc
 sentence_transformers
 huggingface_hub
+langchain_openai

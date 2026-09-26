@@ -18,6 +18,11 @@ from sentence_transformers import CrossEncoder
 model = CrossEncoder(model_name_or_path = 'BAAI/bge-reranker-v2-m3')
 
 def reranker(query, docs, top_k):
+    """Rerank vector-search candidates and return the highest-scoring results.
+
+    In the retrieval pipeline, ``docs`` contains the top 20 chunks from vector
+    search; the cross-encoder then scores those chunks against the query.
+    """
     # Pair the same question with each chunk so every pair is scored jointly.
     pairs = [
         [query, document]
@@ -43,7 +48,7 @@ def reranker(query, docs, top_k):
     return top_documents
 
 
-# Example candidate passages used to demonstrate reranking.
+# Sample candidate chunks; the full pipeline would pass the top 20 from vector search.
 documents = [
     "Employees can carry forward a maximum of 6 unused annual leave days to the next calendar year.",
     "Employees receive 18 days of annual leave every year.",
@@ -63,11 +68,12 @@ documents = [
 ]
 
 
-query = "how many leaves i can carry forward to next year"
+if __name__ == "__main__":
+    query = "how many leaves i can carry forward to next year"
 
-# Print the three passages most relevant to the example query.
-top_documents = reranker(
-    query, documents, 3
-)
+    # Print the three passages most relevant to the example query.
+    top_documents = reranker(
+        query, documents, 3
+    )
 
-print(top_documents)
+    print(top_documents)
