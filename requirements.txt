@@ -13,3 +13,4 @@ pyodbc
 sentence_transformers
 huggingface_hub
 langchain_openai
+rank-bm25
