@@ -13,11 +13,12 @@ load_dotenv()
 import numpy
 from sentence_transformers import CrossEncoder
 
-# Load a cross-encoder that scores query/document relevance together.
+# A cross-encoder reads the question and chunk together to score their relevance.
+# Unlike a bi-encoder, it does not embed them independently and compare vectors.
 model = CrossEncoder(model_name_or_path = 'BAAI/bge-reranker-v2-m3')
 
 def reranker(query, docs, top_k):
-    # Build one input pair for each candidate document.
+    # Pair the same question with each chunk so every pair is scored jointly.
     pairs = [
         [query, document]
         for document in docs
